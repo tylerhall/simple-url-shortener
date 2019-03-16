@@ -30,6 +30,8 @@ To create a new short link, just append the full URL you want to shorten to the 
 
 Possibly of interest to app developers like myself: The shortening service also supports URLs of any scheme - not just HTTP and HTTPS. This means you can shorten URLs like `app://whatever`, where `app://` is the URL scheme belonging to your mobile/desktop software. This is useful for deep-linking customers directly into your app.
 
+**iOS Users:** If you have Apple's [Shortcuts.app](https://itunes.apple.com/app/shortcuts/id915249334) installed on your device, you can [click this link](https://www.icloud.com/shortcuts/d52505e26935491397d9c14b54beea41) to import a ready-made shortcut that will let you automatically shorten the URL on your iOS clipboard and replace it with the generated short link.
+
 ## Viewing Click-Thru Statistics
 
 All visits to your shortened links are tracked. No personally identifiable user information is logged, however. You can view a summary of your recent link activity by going to `/stats/` on the domain hosting your link shortener.
