@@ -4,7 +4,7 @@ Pretty much the simplest URL shortening service possible.
 ## Requirements
 
 * Apache2
-* PHP 5.3+
+* PHP 5.4+
 * MySQL
 * mod_rewrite
 
