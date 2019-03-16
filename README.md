@@ -1,7 +1,8 @@
 # simple-url-shortener
 Pretty much the simplest URL shortening service possible. It's simple, fast, opinionated, keeps track of click-thru stats, and does everything I need. It's all self-contained in a single PHP script (and .htaccess file). No dependencies, no frameworks to install, etc. Just upload the file to your web server and you're done. Maybe you'll find it useful, too.
 
-**Motivation:** I run [a small software company](https://clickontyler.com) which sells macOS and iOS software. Part of my day-to-day in running the business is replying to customer support questions - over email and, sometimes, SMS/chat. I often need to reply to my customers with long URLs to support documents or supply them with custom-URL-scheme links which they can click on to deep-link them into a specific area of an app.
+**Motivation:** I run [a small software company](https://tyler.gd/67wn3
+) which sells macOS and iOS software. Part of my day-to-day in running the business is replying to customer support questions - over email and, sometimes, SMS/chat. I often need to reply to my customers with long URLs to support documents or supply them with custom-URL-scheme links which they can click on to deep-link them into a specific area of an app.
 
 Long and non-standard URLs can often break once sent to a customer or subsequently forwarded around. I've used traditional link shortening services before (like [bit.ly](https://bit.ly), etc), but always worried about my URLs expiring or breaking if the 3rd party shortening service goes out of business or makes a system change. Even if I upgraded to a paid plan which supports using a custom domain name that I own, I'm still not fully in control of my data.
 
@@ -59,4 +60,5 @@ This project aims to be as simple-to-use as possible by making all commands and 
 
 Bug fixes, new features, and improvements are welcome from anyone. Feel free to [open an issue](https://github.com/tylerhall/simple-url-shortener/issues) or [submit a pull request](https://github.com/tylerhall/simple-url-shortener/pulls).
 
-I consider the current state of the project to be feature-complete for my needs and am not looking to add additional features with heavy dependencies or that complicate the simple install process. That said, I'm more than happy to look at any new features or changes you think would make the project better. Feel free to [get in touch](https://clickontyler.com/about/).
+I consider the current state of the project to be feature-complete for my needs and am not looking to add additional features with heavy dependencies or that complicate the simple install process. That said, I'm more than happy to look at any new features or changes you think would make the project better. Feel free to [get in touch](https://tyler.gd/3qumd
+).
