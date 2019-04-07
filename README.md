@@ -20,7 +20,8 @@ Admittedly, I only spent about an hour looking around, but I didn't find anythin
 
 1. Clone this repo into the top-level directory of your website on a PHP enabled Apache2 server.
 2. Import `database.sql` into a MySQL database.
-3. Edit the database settings at the top of `index.php`. You may also edit additional settings such as the length of the short url generated, the allowed characters in the short URL, or set a password to prevent anyone from creating links or viewing statistics about links.
+3. Edit the database settings at the top of `config.sample.php`. You may also edit additional settings such as the length of the short url generated, the allowed characters in the short URL, or set a password to prevent anyone from creating links or viewing statistics about links.
+4. Rename `config.sample.php` to `config.php`.
 
 **Note:** This project relies on the `mod_rewrite` rules contained in the `.htaccess` file. Some web servers (on shared web hosts for example) may not always process `.htaccess` files by default. If you're getting `404` errors when trying to use the service, this is probably why. You'll need to contact your server administrator to enable `.htaccess` files. Here's [more information](http://ask.xmodulo.com/enable-htaccess-apache.html) about the topic if you're technically inclined.
 
