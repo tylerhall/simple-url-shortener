@@ -13,10 +13,10 @@
 	$slug_length = 5;
 
 	// A PASSWORD TO ACCESS LINK ACTIVITY STATISTICS (LEAVE BLANK TO ALLOW ANYONE TO ACCESS)
-	$pw_stats = 'x';
+	$pw_stats = '';
 
 	// A PASSWORD TO ALLOW CREATING NEW LINKS (LEAVE BLANK TO ALLOW ANYONE TO ACCESS)
-	$pw_create = 'x';
+	$pw_create = '';
 
 	// A URL TO REDIRECT TO IF THE RAW INDEX PAGE IS ACCESSED (i.e. not creating a link, visitng a link, or viewing stats)
 	$url_blank = '';
