@@ -98,7 +98,7 @@
 
         $result = mysqli_query($db, 'SELECT * FROM links ORDER BY created DESC LIMIT 50') or error('Could not fetch recent URLs.', 500);
         while($link = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $reffering_domains =array();
+            $reffering_domains = array();
             $visits = mysqli_query($db, "SELECT * FROM visits WHERE slug = '{$link['slug']}'") or error('Could not fetch visits for slug.', 500);
             while($visit = mysqli_fetch_array($visits, MYSQLI_ASSOC)) {
                 if(strlen($visit['referer']) > 0) {
@@ -163,6 +163,7 @@
         $data['info'] = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $data['visits'] = array();
 
+        $reffering_domains = array();
         $visits = mysqli_query($db, "SELECT * FROM visits WHERE slug = '$escaped_slug'") or error('Could not fetch visits for slug.', 500);
         while($visit = mysqli_fetch_array($visits, MYSQLI_ASSOC)) {
             if(strlen($visit['referer']) > 0) {
@@ -179,7 +180,7 @@
             $data['visits'][] = $visit;
         }
         array_multisort($reffering_domains, SORT_DESC);
-        $data['referers'] = $refering_domains;
+        $data['referers'] = $reffering_domains;
 
         if($accepts_json) {
             echo json_encode($data);
