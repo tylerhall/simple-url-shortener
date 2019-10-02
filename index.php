@@ -5,7 +5,7 @@
     // ##### NOTHING FURTHER TO CONFIGURE BELOW #####
     // ##############################################
 
-    $s = empty($_SERVER['HTTPS']) ? '' : ($_SERVER['HTTPS'] == 'on') ? 's' : '';
+    $s = (empty($_SERVER['HTTPS']) ? '' : ($_SERVER['HTTPS'] == 'on')) ? 's' : '';
     $base_url = "http$s://" . $_SERVER['HTTP_HOST'] . '/';
 
     $db = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname) or error('Could not connect to database.', 500);
