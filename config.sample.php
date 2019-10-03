@@ -5,9 +5,11 @@
 	$dbpass = '';
 	$dbname = '';
 
-	// SET THE POSSIBLE CHARACTERS YOUR SHORT URL CAN USE...
+	// SET THE POSSIBLE CHARACTERS A RANDOM SHORT URL CAN USE...
 	// WE RECOMMEND USING 'abcdefghjkmnpqrstuvwxyz23456789', WHICH EXCLUDES AMBIGUOUS CHARACTERS SUCH AS O, 0, 1, I, L, etc.
-	$valid_chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+	$random_chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+	// SET THE ALLOWED CHARS WHEN PROCESSING URL
+	$valid_chars = 'abcdefghijklmnopqrstuvwxyz1234567890-_+~.';
 
 	// LENGTH OF YOUR SHORT URL SLUG...
 	$slug_length = 5;

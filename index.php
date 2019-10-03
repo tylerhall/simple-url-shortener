@@ -57,7 +57,7 @@
     }
 
     function createLink() {
-        global $base_url, $valid_chars, $slug_length, $db, $pw_create, $accepts_json;
+        global $base_url, $random_chars, $slug_length, $db, $pw_create, $accepts_json;
 
         $url = ltrim($_SERVER['REQUEST_URI'], '/');
 
@@ -68,7 +68,7 @@
         do {
             $possible_slug = '';
             for($i = 0; $i < $slug_length; $i++) {
-                $possible_slug .= $valid_chars[rand(0, strlen($valid_chars) - 1)];
+                $possible_slug .= $random_chars[rand(0, strlen($random_chars) - 1)];
             }
             $result = mysqli_query($db, "SELECT COUNT(*) FROM links WHERE slug = '$possible_slug'") or error('Could not generate new slug.', 500);
             $row = mysqli_fetch_row($result);
