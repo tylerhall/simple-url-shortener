@@ -16,13 +16,9 @@
     }
 
     if($_SERVER['REQUEST_URI'] == '/') { doNothing(); exit; }
-    if($pw_stats == '' && preg_match('!^/stats(/?.*)$!', $_SERVER['REQUEST_URI']) == 1) { stats(); exit; }
-    if($pw_stats != '' && preg_match('!^/stats/' . preg_quote($pw_stats, '!') . '/?$!', $_SERVER['REQUEST_URI']) == 1) { stats(); exit; }
+    if(preg_match('!^/stats(/?.*)$!', $_SERVER['REQUEST_URI']) == 1) { stats(); exit;}
     if(preg_match("!^/[$valid_chars]+/?$!", $_SERVER['REQUEST_URI']) == 1) { processSlug(); exit; }
-    if($pw_stats == '' && preg_match("!^/[$valid_chars]+/stats/?$!", $_SERVER['REQUEST_URI']) == 1) { slugStats(); exit; }
-    if($pw_stats != '' && preg_match("!^/[$valid_chars]+/stats/" . preg_quote($pw_stats, '!') . "/?$!", $_SERVER['REQUEST_URI']) == 1) { slugStats(); exit; }
-    if($pw_create == '' && preg_match("!^/[a-z0-9]+://.+$!", $_SERVER['REQUEST_URI']) == 1) { createLink(); exit; }
-    if($pw_create != '' && preg_match("!^/" . preg_quote($pw_create, '!') . "/[a-z0-9]+://.+$!", $_SERVER['REQUEST_URI']) == 1) { createLink(); exit; }
+    if(preg_match('!^/create(/?.*).+$!', $_SERVER['REQUEST_URI']) == 1) { createLink(); exit; }
 
     exit;
 
@@ -59,24 +55,42 @@
     function createLink() {
         global $base_url, $random_chars, $slug_length, $db, $pw_create, $accepts_json;
 
-        $url = ltrim($_SERVER['REQUEST_URI'], '/');
+        $url = isset($_POST['url']) ? '' : $_GET['url'];
+        $custom_slug = isset($_POST['slug']) ? '' : $_GET['slug'];
+        $password = isset($_POST['password']) ? '' : $_GET['password'];
 
         if($pw_create != '') {
-            $url = preg_replace('!^'. preg_quote($pw_create, '!') . '/(.+)$!', '$1', $url);
+            if($pw_create != $password) {
+                error('incorrect password', 403);
+                exit;
+            }
         }
 
-        do {
-            $possible_slug = '';
-            for($i = 0; $i < $slug_length; $i++) {
-                $possible_slug .= $random_chars[rand(0, strlen($random_chars) - 1)];
-            }
-            $result = mysqli_query($db, "SELECT COUNT(*) FROM links WHERE slug = '$possible_slug'") or error('Could not generate new slug.', 500);
+        if($custom_slug == '') {
+            do {
+                $possible_slug = '';
+                for($i = 0; $i < $slug_length; $i++) {
+                    $possible_slug .= $random_chars[rand(0, strlen($random_chars) - 1)];
+                }
+                $result = mysqli_query($db, "SELECT COUNT(*) FROM links WHERE slug = '$possible_slug'") or error('Could not generate new slug.', 500);
+                $row = mysqli_fetch_row($result);
+                $count = $row[0];
+                if($count == 0) {
+                    $slug = $possible_slug;
+                }
+            } while(is_null($slug));
+        }
+        else {
+            $result = mysqli_query($db, "SELECT COUNT(*) FROM links WHERE slug = '$custom_slug'") or error('Could not generate new slug.', 500);
             $row = mysqli_fetch_row($result);
             $count = $row[0];
             if($count == 0) {
-                $slug = $possible_slug;
+                $slug = $custom_slug;
             }
-        } while(is_null($slug));
+            else {
+                error('slug already used', 409);
+            }
+        }
 
         $escaped_url = mysqli_real_escape_string($db, $url) or error('Could not escape URL.', 500);
 
@@ -93,6 +107,19 @@
 
     function stats() {
         global $db, $base_url, $pw_stats, $accepts_json;
+
+        $password = isset($_POST['password']) ? '' : $_GET['password'];
+        $slug = isset($_POST['slug']) ? '' : $_GET['slug'];
+
+        if($pw_stats != '' && $pw_stats != $password) {
+            error('incorrect password', 403);
+            exit;
+        }
+        
+        if($slug != '') {
+            slugStats();
+            exit();
+        }
 
         $data = array();
 
@@ -141,7 +168,7 @@
                     $s = $link['top_referer']['visits'] == 1 ? '' : 's';
                     echo "<td><a href='" . $link['top_referer']['domain'] . "'>" . $link['top_referer']['domain'] . "</a> (" . $link['top_referer']['visits'] . " visit$s)</td>";
                 }
-                echo "<td><a href='/{$link['slug']}/stats/$pw_stats'>View Stats</a></td>";
+                echo "<td><a href='/stats?slug={$link['slug']}&password=$pw_stats'>View Stats</a></td>";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -152,9 +179,11 @@
     function slugStats() {
         global $db, $pw_stats, $valid_chars, $accepts_json;
 
-        $slug = trim($_SERVER['REQUEST_URI'], '/');
-        $slug = preg_replace("!^([$valid_chars]+)/stats.*$!", '$1', $slug);
+        #$slug = trim($_SERVER['REQUEST_URI'], '/');
+        #$slug = preg_replace("!^([$valid_chars]+)/stats.*$!", '$1', $slug);
 
+        $slug = isset($_POST['slug']) ? '' : $_GET['slug'];
+        
         $escaped_slug = mysqli_real_escape_string($db, $slug);
         $result = mysqli_query($db, "SELECT * FROM links WHERE slug = '$escaped_slug'") or error('Could not fetch slug from database.', 500);
         if($result === false || mysqli_num_rows($result) == 0) error('Slug not found.', 404);
