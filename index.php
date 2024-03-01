@@ -73,7 +73,9 @@
             $result = mysqli_query($db, "SELECT COUNT(*) FROM links WHERE slug = '$possible_slug'") or error('Could not generate new slug.', 500);
             $row = mysqli_fetch_row($result);
             $count = $row[0];
-            if($count == 0) {
+
+	    // Probably need a proper list of invalid slugs to iterate over besides just 'stats'
+            if(($count == 0) && ($possible_slug !== 'stats')) {
                 $slug = $possible_slug;
             }
         } while(is_null($slug));
